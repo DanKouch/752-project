@@ -1,6 +1,5 @@
-#include "ebnn.h"
-#include "alex.h"
-#include "mnist_data.h"
+#include "binary_mnist.h"
+#include "binary_mnist_data.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -46,10 +45,11 @@ int main()
 
 	for (int j = 0; j < TESTS; j++)
 	{
-		ebnn_compute(&train_data[784 * j], &output[j]);
+		int index = 1 * CEIL_POS((28 * 28) / 8) * j; // Each element packed, since binary
+		ebnn_compute(&train_data[index], &output[j]);
 
 #ifdef HOST
-		int fail = ((uint8_t)train_labels[j]) != output[j];
+		int fail = (int)train_labels[j] != output[j];
 		printf("actual: %d %s predicted: %d\n", (int)train_labels[j], (fail ? "<>" : "=="), output[j]);
 #endif
 	}

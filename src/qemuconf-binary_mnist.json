@@ -1,0 +1,8 @@
+{
+	"qemu" : "../archie/qemu/build/debug/arm-softmmu/qemu-system-arm",
+	"bios" : "",
+	"kernel" : "binary_mnist.elf",
+	"plugin" : "../archie/faultplugin/libfaultplugin.so",
+	"machine" : "stm32vldiscovery",
+	"additional_qemu_args" : ""
+}
