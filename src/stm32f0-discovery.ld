@@ -5,7 +5,6 @@ MEMORY
 }
 
 EXTERN (vector_table)
-EXTERN (output_dk)
 
 ENTRY(reset_handler)
 
@@ -14,7 +13,6 @@ SECTIONS
 	.text : {
 		*(.vectors)	/* Vector table */
 		*(.text*)	/* Program code */
-		/usr/lib/gcc/arm-none-eabi/*(.text)
 		. = ALIGN(4);
 	} >rom
 	.ram : {
