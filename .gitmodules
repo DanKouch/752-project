@@ -1,0 +1,3 @@
+[submodule "src/ebnn"]
+	path = src/ebnn
+	url = https://github.com/kunglab/ebnn.git
