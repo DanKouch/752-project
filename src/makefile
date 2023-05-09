@@ -10,13 +10,16 @@ target:
 	$(TARGET_CC) -g -O0 $(INCLUDES) -mcpu=cortex-m0 -mthumb -Wl,-static,-Map=alex.map  -nostartfiles -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group -Wl,-T,$(LDSCRIPT) alex.c -o alex.elf
 
 get-addresses:
-	gdb -ex 'print &done' -ex 'print &train_labels' -ex 'print &output' -ex quit ./alex.elf | tail -3
+	gdb-multiarch -ex 'print &done' -ex 'print &train_labels' -ex 'print &output' -ex quit ./alex.elf | tail -3
 
 run-target:
 	qemu-system-arm -nographic -machine stm32vldiscovery -kernel alex.elf -s -S
 
 gdb-target:
-	gdb-multiarch -ex 'target remote localhost:1234' -ex 'b done' -ex 'c' -ex 'p output' -ex 'p train_labels' -ex 'set confirm off' -ex 'quit' ./alex.elf
+	gdb-multiarch -ex 'target remote localhost:1234' -ex 'b done' -ex 'c' -ex 'p output' -ex 'p labels' -ex 'set confirm off' -ex 'quit' ./alex.elf
+
+archie:
+	python ../archie/controller.py --debug --fault fault.json  --qemu qemuconf.json output.hdf5
 
 clean:
 	rm *.elf

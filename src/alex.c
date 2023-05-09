@@ -31,7 +31,10 @@ extern vector_table_t vector_table;
 #define TESTS 20
 
 __attribute__ ((section(".ram")))
-int output[TESTS];
+uint8_t output[TESTS];
+
+__attribute__ ((section(".ram")))
+uint8_t labels[TESTS];
 
 int main() {
 	for(int j = 0; j < TESTS; j++) {
@@ -41,12 +44,16 @@ int main() {
 	output[0] = 0;
 
 	for(int j = 0; j < TESTS; j++) {
-		ebnn_compute(&train_data[784*j], (char *) &output[j]);
+		ebnn_compute(&train_data[784*j], &output[j]);
 
 #ifdef HOST
 		int fail = ((uint8_t) train_labels[j]) != output[j];
 		printf("actual: %d %s predicted: %d\n", (int) train_labels[j], (fail ? "<>" : "=="), output[j]);
 #endif
+	}
+
+	for(int j = 0; j < TESTS; j++) {
+		labels[j] = (uint8_t) train_labels[j];
 	}
 
 	return 0;

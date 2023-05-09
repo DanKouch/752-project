@@ -1,0 +1,37 @@
+{
+	"max_instruction_count": 100000000000000,
+	"start" : {
+		"address" : 0x80021fc,
+		"counter" : 1
+	},
+	"end" :[
+	    {
+		"address" : 0x80021d4,
+		"counter" : 1
+	    }
+],
+"faults" :[
+		[
+				{
+					"fault_address"		: [3],
+					"fault_type"		: "register",
+					"fault_model"		: "set0",
+					"fault_lifespan"	: [0],
+					"fault_mask"		: [0xffffffff],
+					"trigger_address"	: [0x800216a],
+					"trigger_counter"	: [50]
+				}
+		]
+	],
+	"memorydump": [
+			{
+				"address" : 0x20000400,
+				"length" : 20
+			},
+			{
+				"address" : 0x8014808,
+				"length" : 80
+			}
+		],
+	"mem_info": true
+}
