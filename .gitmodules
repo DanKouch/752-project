@@ -1,3 +1,6 @@
 [submodule "ebnn"]
 	path = ebnn
 	url = https://github.com/kunglab/ebnn.git
+[submodule "archie"]
+	path = archie
+	url = git@github.com:Fraunhofer-AISEC/archie.git
