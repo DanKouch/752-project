@@ -1,8 +1,0 @@
-{
-	"qemu" : "../archie/qemu/build/debug/arm-softmmu/qemu-system-arm",
-	"bios" : "",
-	"kernel" : "alex.elf",
-	"plugin" : "../archie/faultplugin/libfaultplugin.so",
-	"machine" : "stm32vldiscovery",
-	"additional_qemu_args" : ""
-}
