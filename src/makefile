@@ -1,7 +1,7 @@
 HOST_CC := gcc
 TARGET_CC :=arm-none-eabi-gcc
 LDSCRIPT = ./stm32f0-discovery.ld
-INCLUDES = -I. -I../ebnn/c -I../ebnn/examples
+INCLUDES = -I. -I../ebnn/examples
 
 PROG := alex
 
@@ -23,7 +23,7 @@ run-target:
 	qemu-system-arm -nographic -machine stm32vldiscovery -kernel ../out/$(PROG).elf -s -S
 
 gdb-target:
-	gdb-multiarch -ex 'target remote localhost:1234' -ex 'b done' -ex 'c' -ex 'p output' -ex 'p labels' -ex 'set confirm off' -ex 'quit' ../out/$(PROG).elf
+	gdb-multiarch -ex 'target remote localhost:1234' -ex 'b done' -ex 'c' -ex 'p output' -ex 'p res_array' -ex 'p labels' -ex 'set confirm off' -ex 'quit' ../out/$(PROG).elf
 
 archie:
 	rm -f ../out/*.xz

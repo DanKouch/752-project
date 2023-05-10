@@ -28,6 +28,7 @@ typedef struct
 extern vector_table_t vector_table;
 #endif
 
+#define CLASSIFICATIONS 10
 #define TESTS 20
 
 __attribute__((section(".ram")))
@@ -35,6 +36,9 @@ uint8_t output[TESTS];
 
 __attribute__((section(".ram")))
 uint8_t labels[TESTS];
+
+__attribute__ ((section(".ram")))
+float res_array[TESTS*10];
 
 int main()
 {
@@ -46,12 +50,17 @@ int main()
 	for (int j = 0; j < TESTS; j++)
 	{
 		int index = 1 * CEIL_POS((28 * 28) / 8) * j; // Each element packed, since binary
-		ebnn_compute(&train_data[index], &output[j]);
+		ebnn_compute(&train_data[index], &output[j], &res_array[j*CLASSIFICATIONS]);
 
-#ifdef HOST
-		int fail = (int)train_labels[j] != output[j];
-		printf("actual: %d %s predicted: %d\n", (int)train_labels[j], (fail ? "<>" : "=="), output[j]);
-#endif
+	#ifdef HOST
+		int fail =  (int)train_labels[j] != output[j];
+    	printf("actual: %d %s predicted: %d\n", (int)train_labels[j], (fail ? "<>" : "=="), output[j]);
+		printf("Result weights:\n");
+		for(int i = 0; i < CLASSIFICATIONS; i++) {
+			printf("%d,%f\n", i, res_array[j*CLASSIFICATIONS + i]);
+		}
+		printf("\n");		
+	#endif
 	}
 
 	for (int j = 0; j < TESTS; j++)

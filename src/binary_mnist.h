@@ -15,8 +15,8 @@ float l_b_linear_bn_softmax1_bn_beta[10] = {-0.12386253,-0.13802822,0.083668754,
 float l_b_linear_bn_softmax1_bn_gamma[10] = {1.9055973,1.8344553,1.8852386,1.8764985,1.8410195,1.7907674,1.8511354,1.8892865,1.7601967,1.7847425};
 float l_b_linear_bn_softmax1_bn_mean[10] = {32.604347,3.7339218,-15.641062,0.30107751,-6.0577564,13.673304,15.538383,7.6556573,46.733898,28.500366};
 float l_b_linear_bn_softmax1_bn_std[10] = {28.082285,29.841702,30.142958,26.488661,25.52788,25.87661,27.551304,30.894911,23.24127,28.76712};
-void l_b_linear_bn_softmax1(uint8_t* input, uint8_t* output){
-  blinear_sm_layer(input, l_b_linear_bn_softmax1_bl_W, output, l_b_linear_bn_softmax1_bl_b, l_b_linear_bn_softmax1_bn_gamma, l_b_linear_bn_softmax1_bn_beta, l_b_linear_bn_softmax1_bn_mean, l_b_linear_bn_softmax1_bn_std, 1, 360, 10); 
+void l_b_linear_bn_softmax1(uint8_t* input, uint8_t* output, float* res_array){
+  blinear_sm_layer(input, l_b_linear_bn_softmax1_bl_W, output, l_b_linear_bn_softmax1_bl_b, l_b_linear_bn_softmax1_bn_gamma, l_b_linear_bn_softmax1_bn_beta, l_b_linear_bn_softmax1_bn_mean, l_b_linear_bn_softmax1_bn_std, 1, 360, 10, res_array); 
 }
 
 __attribute__ ((section(".ram")))
@@ -25,7 +25,7 @@ uint8_t temp1[104] = {0};
 __attribute__ ((section(".ram")))
 uint8_t temp2[104] = {0};
 
-void ebnn_compute(uint8_t *input, uint8_t *output){
+void ebnn_compute(uint8_t *input, uint8_t *output, float *res_array){
   l_b_conv_pool_bn_bst0(input, temp1);
-  l_b_linear_bn_softmax1(temp1, output);
+  l_b_linear_bn_softmax1(temp1, output, res_array);
 }

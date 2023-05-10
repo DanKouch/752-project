@@ -27,6 +27,7 @@ typedef struct {
 extern vector_table_t vector_table;
 #endif
 
+#define CLASSIFICATIONS 10
 #define TESTS 20
 
 __attribute__ ((section(".ram")))
@@ -35,18 +36,26 @@ uint8_t output[TESTS];
 __attribute__ ((section(".ram")))
 uint8_t labels[TESTS];
 
+__attribute__ ((section(".ram")))
+float res_array[TESTS*CLASSIFICATIONS];
+
 int main()
 {
-  for(int j = 0; j < TESTS; j++) {
+	for(int j = 0; j < TESTS; j++) {
 		output[j] = 0;
 	}
    
   for(int j = 0; j < TESTS; j++) {
-    ebnn_compute(&train_data[1*28*28*j], &output[j]);
+    ebnn_compute(&train_data[1*28*28*j], &output[j], &res_array[j*CLASSIFICATIONS]);
 
 #ifdef HOST
     int fail =  (int)train_labels[j] != output[j];
     printf("actual: %d %s predicted: %d\n", (int)train_labels[j], (fail ? "<>" : "=="), output[j]);
+	printf("Result weights:\n");
+	for(int i = 0; i < CLASSIFICATIONS; i++) {
+		printf("%d,%f\n", i, res_array[j*CLASSIFICATIONS + i]);
+	}
+	printf("\n");
 #endif
   }
 
@@ -56,3 +65,25 @@ int main()
    
   return 0;
 }
+
+#ifndef HOST
+void done(void)
+{
+	while (1)
+	{
+		__asm__("nop");
+	}
+}
+
+void reset_handler(void)
+{
+	main();
+	done();
+}
+
+__attribute__((section(".vectors")))
+vector_table_t vector_table = {
+	.initial_sp_value = (unsigned *)0x20002000,
+	.reset = reset_handler};
+
+#endif
