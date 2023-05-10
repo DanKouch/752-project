@@ -1,5 +1,3 @@
-*.out
-*.elf
 *.map
 *.txt
 *_results.xz

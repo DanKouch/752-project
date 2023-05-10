@@ -26,8 +26,11 @@ gdb-target:
 	gdb-multiarch -ex 'target remote localhost:1234' -ex 'b done' -ex 'c' -ex 'p output' -ex 'p labels' -ex 'set confirm off' -ex 'quit' ../out/$(PROG).elf
 
 archie:
-	(cd ../out && python ../archie/controller.py --debug --fault ../src/fault-$(PROG).json  --qemu ../src/qemuconf-$(PROG).json output.hdf5)
-	rm ../out/log_*.txt
+	rm -f ../out/*.xz
+	rm -f ../out/log_*.txt
+	rm -f ../out/*.hdf5
+	(cd ../out && python ../archie/controller.py --fault ../src/fault-$(PROG).json  --qemu ../src/qemuconf-$(PROG).json output.hdf5)
+	rm -f ../out/log_*.txt
 
 clean:
 	rm -f *.elf
