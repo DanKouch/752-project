@@ -23,6 +23,7 @@ output = sys.argv[5]
 # count : Print counts as CSV lines
 # l2-norms : Print L2 norms for every anomalous run
 # json : Print JSON of comparision
+# misprediction-addresses: Print addresses associated with mispredictions
 
 tmp_path = "./_temp.obj"
 
@@ -171,7 +172,7 @@ for i in range(address_start, address_start + length - fault_size + 1):
         #print(' '.join(f'{x:08b}' for x in read_data)) # Print original data in file
 
     # DEBUG: Generate an object file for each run
-    shutil.copyfile(tmp_path, f"{modify_start}_{fault_size}.obj")
+    # shutil.copyfile(tmp_path, f"{modify_start}_{fault_size}.obj")
 
     os.chmod(tmp_path, os.stat(tmp_path).st_mode | stat.S_IEXEC)
     proc = subprocess.run("./_temp.obj", capture_output = True)
@@ -201,6 +202,8 @@ for anomaly in anomalies:
     if(not (anomaly["predictions_mismatches"] == 0)):
         stats["predictions_dont_match_total"] += anomaly["predictions_mismatches"]
         stats["predictions_dont_match"] += 1
+        if(output == "misprediction-addresses"):
+            print(anomaly['modify_start'])
     del anomaly["fault_size"]
     del anomaly["correct_matches"]
     
