@@ -3,7 +3,7 @@ TARGET_CC :=arm-none-eabi-gcc
 LDSCRIPT = ./stm32f0-discovery.ld
 INCLUDES = -I. -I../ebnn/examples
 
-PROG := alex
+PROG := simple_mnist
 
 host: $(PROG).c $(PROG).h
 	mkdir -p ../out
