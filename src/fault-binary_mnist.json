@@ -1,24 +1,27 @@
 {
-	"max_instruction_count": 100,
+	"max_instruction_count": 100000,
 	"start" : {
-		"address" : 0x8000388,
+		"comment" : "entry point to main from reset_handler",
+		"address" : 0x800035e,
 		"counter" : 1
 	},
 	"end" :[
 	    {
-		"address" : 0x800039e,
+			"comment" : "entry point to loop in reset_handler",
+		"address" : 0x8000364,
 		"counter" : 1
 	    }
 ],
 "faults" :[
 		[
 				{
-					"fault_address"		: [3],
-					"fault_type"		: "register",
-					"fault_model"		: "set0",
+					"fault_address"		: [0x8000040, 0x80028d6, 2],
+					"fault_type"		: "instruction",
+					"fault_model"		: "overwrite",
+					"num_bytes" 		: 2,
 					"fault_lifespan"	: [0],
-					"fault_mask"		: [0xffffffff],
-					"trigger_address"	: [0x8000374],
+					"fault_mask"		: [0x46c0],
+					"trigger_address"	: [0x800036c],
 					"trigger_counter"	: [1]
 				}
 		]
@@ -26,11 +29,15 @@
 	"memorydump": [
 			{
 				"address" : 0x20000068,
-				"length" : 20
+				"length" : 1
 			},
 			{
-				"address" : 0x2000007c,
-				"length" : 20
+				"address" : 0x2000006c,
+				"length" : 40
+			},
+			{
+				"address" : 0x20000094,
+				"length" : 1
 			}
 		],
 	"mem_info": true
